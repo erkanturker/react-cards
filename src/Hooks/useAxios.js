@@ -1,15 +1,17 @@
-import React from "react";
+import axios from "axios";
 import { useState } from "react";
 import { v1 as uuid } from "uuid";
-import axios from "axios";
 
 const useAxios = (url) => {
   const [data, setData] = useState([]);
 
-  const addData = async () => {
-    const response = await axios.get(url);
+  const addData = async (pathParam = null) => {
+    const apiUrl = pathParam ? `${url}/${pathParam}` : url;
+
+    const response = await axios.get(apiUrl);
     setData((data) => [...data, { ...response.data, id: uuid() }]);
   };
+
   return [data, addData];
 };
 
